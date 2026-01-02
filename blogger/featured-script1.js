@@ -41,8 +41,8 @@ function showFeatured(json) {
             '</div>' +
             '<div class="fp-image-wrap"><a href="' + postUrl + '"><img src="' + thumb + '"></a></div>' +
             '<div class="fp-snippet">' + snippet + '</div>' +
-            /* CHANGE THE TEXT BELOW TO CHANGE THE BUTTON */
-            '<a href="' + postUrl + '" class="fp-readmore">थप पढ्नुहोस्</a>' + 
+            /* UPDATED BUTTON TEXT BELOW */
+            '<a href="' + postUrl + '" class="fp-readmore">पूरा पढ्नुहोस्</a>' + 
         '</div>';
     }
     container.innerHTML = html;
