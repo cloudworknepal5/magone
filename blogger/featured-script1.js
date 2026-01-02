@@ -68,7 +68,7 @@ function showFeatured(json) {
             '<div class="fp-meta">' +
                 '<img class="fp-author-img" src="' + authorImg + '">' +
                 '<span><b>' + authorName + '</b></span><span>|</span>' +
-                '<span class="nepali-date" data-iso="' + isoDate + '">Loading...</span>' +
+                '<span class="nepali-date" data-iso8601="' + isoDate + '">Loading...</span>' +
             '</div>' +
             '<div class="fp-image-wrap"><a href="' + postUrl + '"><img src="' + thumb + '"></a></div>' +
             '<div class="fp-snippet">' + snippet + '</div>' +
@@ -86,3 +86,4 @@ var observer = new MutationObserver(function() {
 observer.observe(document.body, {childList: true, subtree: true});
 
 document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
+
