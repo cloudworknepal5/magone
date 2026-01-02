@@ -5,15 +5,13 @@
     max-width: 1200px !important;
     margin: 20px auto !important;
     font-family: 'Mukta', sans-serif !important;
+    text-align: center;
 }
 
 .fp-item {
     margin-bottom: 40px !important;
     padding-bottom: 30px !important;
     border-bottom: 1px solid #eeeeee !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
 }
 
 .fp-title {
@@ -21,7 +19,6 @@
     font-weight: 800 !important;
     line-height: 1.2 !important;
     margin: 0 0 15px 0 !important;
-    text-align: center !important;
 }
 
 .fp-title a {
@@ -61,7 +58,7 @@
     font-size: 19px !important;
     line-height: 1.7 !important;
     color: #444444 !important;
-    text-align: center;
+    margin: 20px 0 !important;
 }
 
 .fp-readmore {
