@@ -1,5 +1,5 @@
 var numPosts = 3; 
-var snippetLength = 200; 
+var snippetLength = 100; 
 
 function showFeatured(json) {
     var container = document.getElementById('featured-container');
@@ -49,4 +49,5 @@ function showFeatured(json) {
 }
 
 document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
+
 
