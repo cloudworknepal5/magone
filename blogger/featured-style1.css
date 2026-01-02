@@ -21,12 +21,29 @@
     border-bottom: none !important;
 }
 
+/* Title Container */
 .fp-title {
     font-size: 60px !important;
     font-weight: 800 !important;
     line-height: 1.1 !important;
-    margin: 0 0 10px 0 !important;
+    margin: 0 0 15px 0 !important;
     color: #111111 !important;
+    text-align: center !important;
+    display: block !important;
+}
+
+/* THE FIX: Title Link Styling */
+.fp-title a {
+    color: #111111 !important; /* Forces title to stay black */
+    text-decoration: none !important; /* Removes underline */
+    display: inline-block !important;
+    transition: color 0.3s ease !important;
+}
+
+/* Hover Effect */
+.fp-title a:hover {
+    color: #ee0000 !important; /* Turns red when you point at it */
+    text-decoration: none !important;
 }
 
 .fp-meta {
@@ -82,3 +99,4 @@
     .fp-title { font-size: 40px !important; }
     .fp-snippet { font-size: 17px !important; }
 }
+
