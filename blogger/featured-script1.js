@@ -1,13 +1,12 @@
 var numPosts = 3; 
 var snippetLength = 600; 
 
-// 1. Digit Converter
+// 1. Nepali Conversion Logic (Your Code)
 function toNepali(n) {
     var digits = ['०','१','२','३','४','५','६','७','८','९'];
     return n.toString().split('').map(function(z) { return digits[z] || z; }).join('');
 }
 
-// 2. Nepali Date Applier
 function applyNepaliDate(el) {
     var raw = el.getAttribute('data-iso');
     if (!raw) return;
@@ -32,7 +31,7 @@ function applyNepaliDate(el) {
     el.classList.add('converted');
 }
 
-// 3. Main Function
+// 2. Fetch and Build the Posts
 function showFeatured(json) {
     var container = document.getElementById('featured-container');
     var html = '';
@@ -47,7 +46,7 @@ function showFeatured(json) {
         var entry = entries[i];
         var title = entry.title.$t;
         
-        // FIND POST URL (Crucial Fix)
+        // --- LINK DETECTION FIX ---
         var postUrl = "";
         for (var k = 0; k < entry.link.length; k++) {
             if (entry.link[k].rel == 'alternate') {
@@ -58,18 +57,18 @@ function showFeatured(json) {
         
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src.replace('/s113/', '/s100/') : 'https://via.placeholder.com/100';
-        var isoDate = entry.published.$t;
+        var isoDate = entry.published.$t; 
         var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
-        // CONSTRUCT HTML (With Title Link)
+        // --- HTML CONSTRUCTION ---
         html += '<div class="fp-item">' +
             '<h1 class="fp-title"><a href="' + postUrl + '">' + title + '</a></h1>' +
             '<div class="fp-meta">' +
                 '<img class="fp-author-img" src="' + authorImg + '">' +
                 '<span><b>' + authorName + '</b></span><span>|</span>' +
-                '<span class="nepali-date" data-iso="' + isoDate + '">Loading date...</span>' +
+                '<span class="nepali-date" data-iso="' + isoDate + '">Loading Date...</span>' +
             '</div>' +
             '<div class="fp-image-wrap"><a href="' + postUrl + '"><img src="' + thumb + '"></a></div>' +
             '<div class="fp-snippet">' + snippet + '</div>' +
@@ -77,7 +76,16 @@ function showFeatured(json) {
         '</div>';
     }
     container.innerHTML = html;
+    
+    // Manually trigger the date conversion for the first load
     document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
 }
 
+// 3. MutationObserver for Dynamic Loading
+var observer = new MutationObserver(function(mutations) {
+    document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
+});
+observer.observe(document.body, {childList: true, subtree: true});
+
+// 4. Fetch the Blogger Feed
 document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
