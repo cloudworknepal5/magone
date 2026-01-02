@@ -7,7 +7,7 @@ function toNepali(n) {
     return n.toString().split('').map(function(z) { return digits[z] || z; }).join('');
 }
 
-// 2. Nepali Date Logic
+// 2. Precise Nepali Date Logic
 function applyNepaliDate(el) {
     var raw = el.getAttribute('data-iso');
     if (!raw || raw.includes('data:')) return;
@@ -32,7 +32,7 @@ function applyNepaliDate(el) {
     el.classList.add('converted');
 }
 
-// 3. Post Builder (The Engine)
+// 3. Post Builder Engine
 function showFeatured(json) {
     var container = document.getElementById('featured-container');
     var html = '';
@@ -47,7 +47,7 @@ function showFeatured(json) {
         var entry = entries[i];
         var title = entry.title.$t;
         
-        // Link Logic
+        // Find Post URL
         var postUrl = "";
         for (var k = 0; k < entry.link.length; k++) {
             if (entry.link[k].rel == 'alternate') {
@@ -79,7 +79,7 @@ function showFeatured(json) {
     document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
 }
 
-// 4. Initialization
+// 4. Watcher for Dynamic Content
 var observer = new MutationObserver(function() {
     document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
 });
