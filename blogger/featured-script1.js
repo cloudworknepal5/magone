@@ -1,29 +1,31 @@
 var numPosts = 3; 
 var snippetLength = 600; 
 
+// Function to convert English digits to Nepali digits
+function toNepaliNum(num) {
+    var dict = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
+    return num.toString().replace(/[0123456789]/g, function(s) { return dict[s]; });
+}
+
 function getNepaliDateTime(dateString) {
     var date = new Date(dateString);
-    
-    // Arrays for Nepali Translation
     var days = ["आइतवार", "सोमवार", "मङ्गलवार", "बुधवार", "बिहीवार", "शुक्रवार", "शनिवार"];
-    var months = ["बैशाख", "जेठ", "असार", "साउन", "भदौ", "असोज", "कार्तिक", "मंसिर", "पुष", "माघ", "फागुन", "चैत"];
+    var months = ["वैशाख", "जेठ", "असार", "साउन", "भदौ", "असोज", "कात्तिक", "मंसिर", "पुस", "माघ", "फागुन", "चैत"];
     
     var dayName = days[date.getDay()];
-    var dayNum = date.getDate();
+    var dayNum = toNepaliNum(date.getDate());
     var monthName = months[date.getMonth()];
-    var year = date.getFullYear();
+    var year = toNepaliNum(date.getFullYear());
     
-    // 24-Hour Format Logic
+    // 24-hour format logic
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    
-    // Add leading zero to hours and minutes if less than 10
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     
-    var strTime = hours + ':' + minutes;
+    var time = toNepaliNum(hours) + ":" + toNepaliNum(minutes);
     
-    return dayName + ", " + monthName + " " + dayNum + ", " + year + " | " + strTime;
+    return dayName + ", " + monthName + " " + dayNum + ", " + year + " | समय: " + time;
 }
 
 function showFeatured(json) {
@@ -45,10 +47,7 @@ function showFeatured(json) {
         
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image.src.replace('/s113/', '/s100/');
-        
-        // Calling Updated DateTime function
         var dateTime = getNepaliDateTime(entry.published.$t);
-        
         var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
@@ -68,4 +67,5 @@ function showFeatured(json) {
     container.innerHTML = html;
 }
 
-document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts
+// Fetching Recent Posts
+document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
