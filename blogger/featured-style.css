@@ -49,7 +49,7 @@
 
 .fp-image-wrap {
     width: 100% !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 5px !important;
 }
 
 .fp-image-wrap img {
@@ -84,3 +84,4 @@
         font-size: 40px !important;
     }
 }
+
