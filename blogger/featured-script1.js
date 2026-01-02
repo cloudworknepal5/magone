@@ -1,13 +1,13 @@
 var numPosts = 3; 
 var snippetLength = 600; 
 
-// 1. Digit Converter
+// 1. Function to convert English digits to Nepali digits
 function toNepaliNum(num) {
     var dict = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
     return num.toString().replace(/[0123456789]/g, function(s) { return dict[s]; });
 }
 
-// 2. Robust Date Function
+// 2. Function to format date/time into Nepali
 function getNepaliDateTime(dateString) {
     var date = new Date(dateString);
     
@@ -25,7 +25,7 @@ function getNepaliDateTime(dateString) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     
-    // Formatting with leading zeros
+    // 24-hour formatting with leading zeros
     var hStr = hours < 10 ? '0' + hours : hours;
     var mStr = minutes < 10 ? '0' + minutes : minutes;
     
@@ -47,31 +47,37 @@ function showFeatured(json) {
     for (var i = 0; i < entries.length; i++) {
         var entry = entries[i];
         var title = entry.title.$t;
-        var link = '';
+        
+        // Find the Post URL for hyperlinking
+        var postUrl = "";
         for (var k = 0; k < entry.link.length; k++) {
-            if (entry.link[k].rel == 'alternate') { link = entry.link[k].href; break; }
+            if (entry.link[k].rel == 'alternate') {
+                postUrl = entry.link[k].href;
+                break;
+            }
         }
         
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src.replace('/s113/', '/s100/') : 'https://via.placeholder.com/100';
         
-        // DATE LOGIC HERE
-        var publishedDate = entry.published.$t;
-        var dateTimeLabel = getNepaliDateTime(publishedDate);
+        // Convert the published date to Nepali
+        var pubDate = entry.published.$t; 
+        var nepaliDate = getNepaliDateTime(pubDate);
         
         var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
+        // Structure with hyperlinked title and image
         html += '<div class="fp-item">' +
-            '<h1 class="fp-title">' + title + '</h1>' +
+            '<h1 class="fp-title"><a href="' + postUrl + '" style="text-decoration:none; color:inherit;">' + title + '</a></h1>' +
             '<div class="fp-meta">' +
                 '<img class="fp-author-img" src="' + authorImg + '">' +
-                '<span><b>' + authorName + '</b></span><span>|</span><span>' + dateTimeLabel + '</span>' +
+                '<span><b>' + authorName + '</b></span><span>|</span><span>' + nepaliDate + '</span>' +
             '</div>' +
-            '<div class="fp-image-wrap"><a href="' + link + '"><img src="' + thumb + '"></a></div>' +
+            '<div class="fp-image-wrap"><a href="' + postUrl + '"><img src="' + thumb + '"></a></div>' +
             '<div class="fp-snippet">' + snippet + '</div>' +
-            '<a href="' + link + '" class="fp-readmore">थप पढ्नुहोस्</a>' +
+            '<a href="' + postUrl + '" class="fp-readmore">थप पढ्नुहोस्</a>' +
         '</div>';
     }
     container.innerHTML = html;
