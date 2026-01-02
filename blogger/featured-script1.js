@@ -7,7 +7,7 @@ function showFeatured(json) {
     var entries = json.feed.entry;
 
     if (!entries) {
-        container.innerHTML = "No posts found.";
+        container.innerHTML = "पोष्टहरू फेला परेनन्।";
         return;
     }
 
@@ -15,7 +15,7 @@ function showFeatured(json) {
         var entry = entries[i];
         var title = entry.title.$t;
         
-        // FIND POST URL
+        // Find Post URL
         var postUrl = "";
         for (var k = 0; k < entry.link.length; k++) {
             if (entry.link[k].rel == 'alternate') {
@@ -27,7 +27,7 @@ function showFeatured(json) {
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src : 'https://via.placeholder.com/100';
         
-        // STANDARD DATE
+        // Standard Date
         var pubDate = new Date(entry.published.$t);
         var dateString = pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         
@@ -35,7 +35,7 @@ function showFeatured(json) {
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
-        // CONSTRUCT HTML
+        // Updated HTML with Nepali Button text
         html += '<div class="fp-item">' +
             '<h1 class="fp-title"><a href="' + postUrl + '">' + title + '</a></h1>' +
             '<div class="fp-meta">' +
