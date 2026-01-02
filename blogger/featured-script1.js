@@ -1,15 +1,16 @@
 var numPosts = 3; 
 var snippetLength = 600; 
 
-// --- 1. Your Nepali Converter Logic ---
+// 1. Digit Converter
 function toNepali(n) {
     var digits = ['०','१','२','३','४','५','६','७','८','९'];
     return n.toString().split('').map(function(z) { return digits[z] || z; }).join('');
 }
 
+// 2. Nepali Date Applier
 function applyNepaliDate(el) {
     var raw = el.getAttribute('data-iso');
-    if (!raw || raw.includes('data:')) return;
+    if (!raw) return;
     var d = new Date(raw);
     if (isNaN(d.getTime())) return;
 
@@ -24,8 +25,6 @@ function applyNepaliDate(el) {
 
     var hh = d.getHours();
     var mm = d.getMinutes();
-    
-    // Formatting time with leading zeros
     var hS = hh < 10 ? '०' + toNepali(hh) : toNepali(hh);
     var mS = mm < 10 ? '०' + toNepali(mm) : toNepali(mm);
 
@@ -33,12 +32,7 @@ function applyNepaliDate(el) {
     el.classList.add('converted');
 }
 
-// Watcher for Ajax/Dynamic loading
-var observer = new MutationObserver(function(mutations) {
-    document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
-});
-
-// --- 2. Post Display Logic ---
+// 3. Main Function
 function showFeatured(json) {
     var container = document.getElementById('featured-container');
     var html = '';
@@ -53,7 +47,7 @@ function showFeatured(json) {
         var entry = entries[i];
         var title = entry.title.$t;
         
-        // Link Detection
+        // FIND POST URL (Crucial Fix)
         var postUrl = "";
         for (var k = 0; k < entry.link.length; k++) {
             if (entry.link[k].rel == 'alternate') {
@@ -64,15 +58,12 @@ function showFeatured(json) {
         
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src.replace('/s113/', '/s100/') : 'https://via.placeholder.com/100';
-        
-        // ISO Date for the converter
-        var isoDate = entry.published.$t; 
-        
+        var isoDate = entry.published.$t;
         var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
-        // Structure: Note the <a> tag for Title and .nepali-date with data-iso for the script
+        // CONSTRUCT HTML (With Title Link)
         html += '<div class="fp-item">' +
             '<h1 class="fp-title"><a href="' + postUrl + '">' + title + '</a></h1>' +
             '<div class="fp-meta">' +
@@ -86,13 +77,7 @@ function showFeatured(json) {
         '</div>';
     }
     container.innerHTML = html;
-    
-    // Trigger conversion manually after HTML is injected
     document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
 }
 
-// Start Observation
-observer.observe(document.body, {childList: true, subtree: true});
-
-// Load Feed
 document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
