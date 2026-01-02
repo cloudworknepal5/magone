@@ -21,13 +21,11 @@
     margin: 0 0 15px 0 !important;
 }
 
-/* THE FIX: Ensure the link is clickable and colored */
 .fp-title a {
     color: #111111 !important;
     text-decoration: none !important;
     display: inline-block !important;
     cursor: pointer !important;
-    pointer-events: auto !important;
 }
 
 .fp-title a:hover {
@@ -54,7 +52,6 @@
     width: 100% !important;
     height: auto !important;
     border-radius: 12px !important;
-    display: block;
 }
 
 .fp-snippet {
@@ -72,4 +69,5 @@
     text-decoration: none !important;
     font-weight: 700 !important;
     border-radius: 5px !important;
+    font-family: 'Mukta', sans-serif !important;
 }
