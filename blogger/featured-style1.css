@@ -4,7 +4,6 @@
     width: 100% !important;
     max-width: 1200px !important;
     margin: 20px auto !important;
-    text-align: center !important;
     font-family: 'Mukta', sans-serif !important;
 }
 
@@ -29,7 +28,7 @@
     color: #111111 !important;
     text-decoration: none !important;
     display: inline-block !important;
-    transition: color 0.3s ease !important;
+    cursor: pointer !important;
 }
 
 .fp-title a:hover {
@@ -52,11 +51,6 @@
     border-radius: 50% !important;
 }
 
-.fp-image-wrap {
-    width: 100% !important;
-    margin-bottom: 15px !important;
-}
-
 .fp-image-wrap img {
     width: 100% !important;
     height: auto !important;
@@ -67,8 +61,7 @@
     font-size: 19px !important;
     line-height: 1.7 !important;
     color: #444444 !important;
-    margin-bottom: 25px !important;
-    max-width: 1000px !important;
+    text-align: center;
 }
 
 .fp-readmore {
@@ -79,9 +72,4 @@
     text-decoration: none !important;
     font-weight: 700 !important;
     border-radius: 5px !important;
-}
-
-@media screen and (max-width: 768px) {
-    .fp-title { font-size: 36px !important; }
-    .fp-snippet { font-size: 17px !important; }
 }
