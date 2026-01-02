@@ -46,6 +46,8 @@
     text-decoration: none !important;
 }
 
+
+
 .fp-meta {
     display: flex !important;
     align-items: center !important;
@@ -100,3 +102,16 @@
     .fp-snippet { font-size: 17px !important; }
 }
 
+
+/* ADD THIS TO THE BOTTOM OF YOUR CSS FILE */
+.fp-title a {
+    color: #111111 !important;
+    text-decoration: none !important;
+    display: block !important; 
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+.fp-title a:hover {
+    color: #ee0000 !important;
+}
