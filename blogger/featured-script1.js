@@ -7,7 +7,7 @@ function showFeatured(json) {
     var entries = json.feed.entry;
 
     if (!entries) {
-        container.innerHTML = "पोष्टहरू फेला परेनन्।";
+        container.innerHTML = "No posts found.";
         return;
     }
 
@@ -26,16 +26,12 @@ function showFeatured(json) {
         
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src : 'https://via.placeholder.com/100';
-        
-        // Standard Date
         var pubDate = new Date(entry.published.$t);
         var dateString = pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        
         var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
-        // Updated HTML with Nepali Button text
         html += '<div class="fp-item">' +
             '<h1 class="fp-title"><a href="' + postUrl + '">' + title + '</a></h1>' +
             '<div class="fp-meta">' +
@@ -45,7 +41,8 @@ function showFeatured(json) {
             '</div>' +
             '<div class="fp-image-wrap"><a href="' + postUrl + '"><img src="' + thumb + '"></a></div>' +
             '<div class="fp-snippet">' + snippet + '</div>' +
-            '<a href="' + postUrl + '" class="fp-readmore">थप पढ्नुहोस्</a>' +
+            /* CHANGE THE TEXT BELOW TO CHANGE THE BUTTON */
+            '<a href="' + postUrl + '" class="fp-readmore">थप पढ्नुहोस्</a>' + 
         '</div>';
     }
     container.innerHTML = html;
