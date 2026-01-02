@@ -41,4 +41,4 @@ function showFeatured(json) {
     container.innerHTML = html;
 }
 
-document.write('<script src="/feeds/posts/default/-/' + targetLabel + '?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
+document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
