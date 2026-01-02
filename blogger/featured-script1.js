@@ -1,16 +1,24 @@
 var numPosts = 3; 
 var snippetLength = 600; 
 
-// 1. Digit Converter (English to Nepali digits)
+// 1. Load Mukta Font Dynamically if missing
+if (!document.getElementById('mukta-font-link')) {
+    var link = document.createElement('link');
+    link.id = 'mukta-font-link';
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Mukta:wght@400;700;800&display=swap';
+    document.head.appendChild(link);
+}
+
+// 2. Nepali Conversion Utilities
 function toNepali(n) {
     var digits = ['०','१','२','३','४','५','६','७','८','९'];
     return n.toString().split('').map(function(z) { return digits[z] || z; }).join('');
 }
 
-// 2. The Logic to Change Date to Nepali BS
 function applyNepaliDate(el) {
     var raw = el.getAttribute('data-iso');
-    if (!raw || raw.includes('data:')) return;
+    if (!raw) return;
     var d = new Date(raw);
     if (isNaN(d.getTime())) return;
 
@@ -32,12 +40,7 @@ function applyNepaliDate(el) {
     el.classList.add('converted');
 }
 
-// 3. Observer to watch for new items (MutationObserver)
-var observer = new MutationObserver(function(mutations) {
-    document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
-});
-
-// 4. Main Function to Build HTML
+// 3. Main Display Function
 function showFeatured(json) {
     var container = document.getElementById('featured-container');
     var html = '';
@@ -52,7 +55,7 @@ function showFeatured(json) {
         var entry = entries[i];
         var title = entry.title.$t;
         
-        // --- LINK LOGIC ---
+        // FIND URL
         var postUrl = "";
         for (var k = 0; k < entry.link.length; k++) {
             if (entry.link[k].rel == 'alternate') {
@@ -63,35 +66,14 @@ function showFeatured(json) {
         
         var authorName = entry.author[0].name.$t;
         var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src.replace('/s113/', '/s100/') : 'https://via.placeholder.com/100';
-        var isoDate = entry.published.$t; // This is the data-iso for Nepali Date
-        
+        var isoDate = entry.published.$t; 
         var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
-        // --- THE HTML STRUCTURE ---
-        // Title Link and Date Class are added here
+        // THE STRUCTURE (Crucial for Title Link and Date)
         html += '<div class="fp-item">' +
             '<h1 class="fp-title"><a href="' + postUrl + '">' + title + '</a></h1>' +
             '<div class="fp-meta">' +
                 '<img class="fp-author-img" src="' + authorImg + '">' +
-                '<span><b>' + authorName + '</b></span><span>|</span>' +
-                '<span class="nepali-date" data-iso="' + isoDate + '">Loading Date...</span>' +
-            '</div>' +
-            '<div class="fp-image-wrap"><a href="' + postUrl + '"><img src="' + thumb + '"></a></div>' +
-            '<div class="fp-snippet">' + snippet + '</div>' +
-            '<a href="' + postUrl + '" class="fp-readmore">थप पढ्नुहोस्</a>' +
-        '</div>';
-    }
-    container.innerHTML = html;
-    
-    // Trigger conversion for the current items
-    document.querySelectorAll('.nepali-date:not(.converted)').forEach(applyNepaliDate);
-}
-
-// 5. Start observing and load feed
-document.addEventListener("DOMContentLoaded", function() {
-    observer.observe(document.body, {childList: true, subtree: true});
-});
-
-document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
+                '<span><b>
