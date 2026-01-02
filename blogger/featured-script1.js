@@ -1,14 +1,19 @@
 var numPosts = 3; 
 var snippetLength = 600; 
 
-// Function to convert English digits to Nepali digits
+// 1. Digit Converter
 function toNepaliNum(num) {
     var dict = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
     return num.toString().replace(/[0123456789]/g, function(s) { return dict[s]; });
 }
 
+// 2. Robust Date Function
 function getNepaliDateTime(dateString) {
     var date = new Date(dateString);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) return "";
+
     var days = ["आइतवार", "सोमवार", "मङ्गलवार", "बुधवार", "बिहीवार", "शुक्रवार", "शनिवार"];
     var months = ["वैशाख", "जेठ", "असार", "साउन", "भदौ", "असोज", "कात्तिक", "मंसिर", "पुस", "माघ", "फागुन", "चैत"];
     
@@ -17,13 +22,14 @@ function getNepaliDateTime(dateString) {
     var monthName = months[date.getMonth()];
     var year = toNepaliNum(date.getFullYear());
     
-    // 24-hour format logic
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
     
-    var time = toNepaliNum(hours) + ":" + toNepaliNum(minutes);
+    // Formatting with leading zeros
+    var hStr = hours < 10 ? '0' + hours : hours;
+    var mStr = minutes < 10 ? '0' + minutes : minutes;
+    
+    var time = toNepaliNum(hStr) + ":" + toNepaliNum(mStr);
     
     return dayName + ", " + monthName + " " + dayNum + ", " + year + " | समय: " + time;
 }
@@ -31,14 +37,15 @@ function getNepaliDateTime(dateString) {
 function showFeatured(json) {
     var container = document.getElementById('featured-container');
     var html = '';
-    
-    if (!json.feed.entry) {
+    var entries = json.feed.entry;
+
+    if (!entries) {
         container.innerHTML = "No posts found.";
         return;
     }
 
-    for (var i = 0; i < json.feed.entry.length; i++) {
-        var entry = json.feed.entry[i];
+    for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i];
         var title = entry.title.$t;
         var link = '';
         for (var k = 0; k < entry.link.length; k++) {
@@ -46,10 +53,13 @@ function showFeatured(json) {
         }
         
         var authorName = entry.author[0].name.$t;
-        var authorImg = entry.author[0].gd$image.src.replace('/s113/', '/s100/');
-        var dateTime = getNepaliDateTime(entry.published.$t);
-        var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
+        var authorImg = entry.author[0].gd$image ? entry.author[0].gd$image.src.replace('/s113/', '/s100/') : 'https://via.placeholder.com/100';
         
+        // DATE LOGIC HERE
+        var publishedDate = entry.published.$t;
+        var dateTimeLabel = getNepaliDateTime(publishedDate);
+        
+        var thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('/s72-c/', '/s1600/') : 'https://via.placeholder.com/1200x600';
         var content = entry.summary ? entry.summary.$t : (entry.content ? entry.content.$t : "");
         var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, snippetLength) + '...';
 
@@ -57,7 +67,7 @@ function showFeatured(json) {
             '<h1 class="fp-title">' + title + '</h1>' +
             '<div class="fp-meta">' +
                 '<img class="fp-author-img" src="' + authorImg + '">' +
-                '<span><b>' + authorName + '</b></span><span>|</span><span>' + dateTime + '</span>' +
+                '<span><b>' + authorName + '</b></span><span>|</span><span>' + dateTimeLabel + '</span>' +
             '</div>' +
             '<div class="fp-image-wrap"><a href="' + link + '"><img src="' + thumb + '"></a></div>' +
             '<div class="fp-snippet">' + snippet + '</div>' +
@@ -67,5 +77,4 @@ function showFeatured(json) {
     container.innerHTML = html;
 }
 
-// Fetching Recent Posts
 document.write('<script src="/feeds/posts/default?alt=json-in-script&max-results=' + numPosts + '&callback=showFeatured"><\/script>');
