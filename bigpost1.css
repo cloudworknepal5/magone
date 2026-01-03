@@ -9,33 +9,44 @@
     text-align: center;
 }
 
-/* Post Wrapper with 5px RED Border */
+/* Post Wrapper */
 .vr-post {
     margin-bottom: 40px; 
     padding-bottom: 40px;
-    border-bottom: 5px solid #ff0000; /* 5px मोटो रातो बोर्डर */
+    border-bottom: 5px solid #ff0000; 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* अन्तिम पोस्टमा बोर्डर हटाउन */
 .vr-post:last-child { 
     border-bottom: none; 
 }
 
-/* Headline - 60px Center Desktop, 40px Mobile */
+/* --- Headline with Animation --- */
 .vr-title {
-    font-size: 60px;
+    font-size: 60px !important; /* साइज सुरक्षित गर्न */
     font-weight: 800;
     line-height: 1.1;
     margin: 0 0 15px 0;
     color: #111;
 }
 
-.vr-title a { text-decoration: none; color: inherit; }
+.vr-title a { 
+    text-decoration: none; 
+    color: inherit; 
+    display: inline-block;
+    transition: all 0.3s ease-in-out; /* एनिमेसनको गति */
+}
 
-/* Meta Info Inline */
+/* माउस लैजाँदा हुने एनिमेसन (Hover Effect) */
+.vr-title a:hover {
+    color: #ff0000 !important; /* रङ रातो हुने */
+    transform: translateY(-5px); /* थोरै माथि उचालिने */
+    text-shadow: 0px 5px 15px rgba(0,0,0,0.1); /* हल्का छायाँ */
+}
+
+/* Meta Info */
 .vr-meta {
     display: flex;
     align-items: center;
@@ -59,14 +70,7 @@
     gap: 15px;
 }
 
-.vr-date {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #888;
-}
-
-/* Featured Image (1200px) */
+/* Featured Image */
 .vr-image {
     width: 100%;
     max-width: 1200px;
@@ -79,9 +83,15 @@
     max-height: 600px;
     object-fit: cover;
     border-radius: 8px;
+    transition: 0.5s ease;
 }
 
-/* Snippet Styling (Tight Gaps) */
+/* फोटोमा पनि जुम एनिमेसन थप्न चाहनुहुन्छ भने */
+.vr-post:hover .vr-image img {
+    transform: scale(1.02);
+}
+
+/* Snippet */
 .vr-snippet {
     font-size: 19px;
     line-height: 1.6;
@@ -90,11 +100,11 @@
     margin: 0 auto 25px auto; 
 }
 
-/* Attractive Red Button */
+/* Button */
 .vr-btn {
     display: inline-block;
     background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: #ffffff;
+    color: #ffffff !important;
     padding: 14px 40px;
     font-size: 18px;
     font-weight: 700;
@@ -106,12 +116,19 @@
 
 .vr-btn:hover {
     background: #000;
-    color: #fff;
     transform: translateY(-2px);
 }
 
-/* Mobile Responsiveness */
+/* --- Mobile Responsiveness --- */
 @media screen and (max-width: 768px) {
-    .vr-title { font-size: 40px; }
-    .vr-snippet { font-size: 16px; padding: 0 10px; }
+    .vr-title { 
+        font-size: 40px !important; /* मोबाइलमा ४० पिक्सेल */
+    }
+    .vr-snippet { 
+        font-size: 17px; 
+        padding: 0 10px; 
+    }
+    .vr-image img {
+        max-height: 350px;
+    }
 }
