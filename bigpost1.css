@@ -1,6 +1,7 @@
 /* Mukta Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;700;800&display=swap');
 
+/* Main Container */
 .vertical-recent-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -23,30 +24,31 @@
     border-bottom: none; 
 }
 
-/* --- Headline with Animation --- */
-.vr-title {
-    font-size: 60px !important; /* साइज सुरक्षित गर्न */
-    font-weight: 800;
-    line-height: 1.1;
-    margin: 0 0 15px 0;
-    color: #111;
+/* --- Headline Fix & Animation --- */
+/* .vr-post भित्रको h2 र a लाई !important दिएर साइज फिक्स गरिएको छ */
+.vr-post .vr-title {
+    font-size: 60px !important; 
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    margin: 15px 0 !important;
+    color: #111 !important;
+    font-family: 'Mukta', sans-serif !important;
 }
 
-.vr-title a { 
-    text-decoration: none; 
-    color: inherit; 
+.vr-post .vr-title a { 
+    text-decoration: none !important; 
+    color: #111 !important; 
     display: inline-block;
-    transition: all 0.3s ease-in-out; /* एनिमेसनको गति */
+    transition: all 0.3s ease-in-out; 
 }
 
-/* माउस लैजाँदा हुने एनिमेसन (Hover Effect) */
-.vr-title a:hover {
-    color: #ff0000 !important; /* रङ रातो हुने */
-    transform: translateY(-5px); /* थोरै माथि उचालिने */
-    text-shadow: 0px 5px 15px rgba(0,0,0,0.1); /* हल्का छायाँ */
+/* Hover Animation: रातो हुने र माथि उचालिने */
+.vr-post .vr-title a:hover {
+    color: #ff0000 !important;
+    transform: translateY(-5px);
 }
 
-/* Meta Info */
+/* Meta Info Inline */
 .vr-meta {
     display: flex;
     align-items: center;
@@ -58,7 +60,7 @@
 .vr-author-img {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 50% !important;
     object-fit: cover;
 }
 
@@ -70,11 +72,20 @@
     gap: 15px;
 }
 
+.vr-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #888;
+}
+
 /* Featured Image */
 .vr-image {
     width: 100%;
     max-width: 1200px;
     margin-bottom: 25px;
+    overflow: hidden; /* जुम एनिमेसन बाहिर नजाओस् भनेर */
+    border-radius: 8px;
 }
 
 .vr-image img {
@@ -82,16 +93,16 @@
     height: auto;
     max-height: 600px;
     object-fit: cover;
-    border-radius: 8px;
-    transition: 0.5s ease;
+    display: block;
+    transition: transform 0.5s ease;
 }
 
-/* फोटोमा पनि जुम एनिमेसन थप्न चाहनुहुन्छ भने */
-.vr-post:hover .vr-image img {
-    transform: scale(1.02);
+/* इमेजमा होभर गर्दा जुम हुने */
+.vr-image:hover img {
+    transform: scale(1.05);
 }
 
-/* Snippet */
+/* Snippet Styling */
 .vr-snippet {
     font-size: 19px;
     line-height: 1.6;
@@ -100,7 +111,7 @@
     margin: 0 auto 25px auto; 
 }
 
-/* Button */
+/* Button Styling */
 .vr-btn {
     display: inline-block;
     background: linear-gradient(135deg, #e74c3c, #c0392b);
@@ -108,26 +119,30 @@
     padding: 14px 40px;
     font-size: 18px;
     font-weight: 700;
-    text-decoration: none;
+    text-decoration: none !important;
     border-radius: 5px;
     transition: 0.3s ease;
     box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
 }
 
 .vr-btn:hover {
-    background: #000;
+    background: #000 !important;
+    color: #fff !important;
     transform: translateY(-2px);
 }
 
 /* --- Mobile Responsiveness --- */
 @media screen and (max-width: 768px) {
-    .vr-title { 
+    .vr-post .vr-title { 
         font-size: 40px !important; /* मोबाइलमा ४० पिक्सेल */
+        line-height: 1.2 !important;
     }
+    
     .vr-snippet { 
-        font-size: 17px; 
+        font-size: 16px; 
         padding: 0 10px; 
     }
+
     .vr-image img {
         max-height: 350px;
     }
