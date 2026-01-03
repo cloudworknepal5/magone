@@ -25,35 +25,18 @@
 }
 
 /* Headline - 60px Center Desktop, 40px Mobile */
-/* डेस्कटपको लागि ६० पिक्सेल */
 .vr-title {
-    font-size: 60px !important;
-    font-weight: 800 !important;
-    line-height: 1.1 !important;
-    margin: 0 0 15px 0 !important;
-    color: #111 !important;
-    text-align: center;
+    font-size: 60px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 15px 0;
+    color: #111;
 }
 
-.vr-title a {
-    text-decoration: none !important;
-    color: inherit !important;
-    display: inline-block;
-    transition: all 0.3s ease;
+.vr-title a:hover {
+    color: #ff0000; /* रातो रङमा बदलिने */
+    transform: translateX(10px); /* १० पिक्सेल दायाँ सर्ने */
 }
-
-/* मोबाइलको लागि ४० पिक्सेल (७६८ पिक्सेल भन्दा सानो स्क्रिनमा) */
-@media screen and (max-width: 768px) {
-    .vr-title {
-        font-size: 40px !important;
-    }
-}
-
-/* अझ सानो मोबाइल (४८० पिक्सेल) को लागि यदि ४० पनि ठूलो भएमा */
-@media screen and (max-width: 480px) {
-    .vr-title {
-        font-size: 32px !important;
-    }
 
 .vr-title a { text-decoration: none; color: inherit; }
 
