@@ -4,34 +4,49 @@ function renderRecentVerticalPosts(json) {
 
     if (!entries) return;
 
+    // ३ वटा पोस्ट देखाउनको लागि
     for (var i = 0; i < 3; i++) {
         if (entries[i]) {
             var post = entries[i];
             var title = post.title.$t;
             var link = post.link.find(l => l.rel === 'alternate').href;
+            
+            // इमेज साइज सुधार (७२पिक्सेल बाट १२०० पिक्सेलमा)
             var img = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's1200') : 'https://via.placeholder.com/1200x630';
             
             var authorName = post.author[0].name.$t;
             var authorImg = post.author[0].gd$image.src.replace('/s512-c/', '/s80-c/'); 
+            
+            // मिति नेपालीमा (ne-NP)
             var pubDate = new Date(post.published.$t).toLocaleDateString('ne-NP');
 
-            // 60 Word Snippet (Change to 10 if needed)
+            // सामग्रीबाट ६० शब्दको स्निपेट बनाउने
             var content = post.content ? post.content.$t : (post.summary ? post.summary.$t : "");
             var snippet = content.replace(/<\/?[^>]+(>|$)/g, "").split(/\s+/).slice(0, 60).join(" ") + "...";
 
+            // HTML ढाँचा
             html += '<article class="vr-post">';
+            
+            // १. शीर्षक (CSS मा भएको ६० पिक्सेल यहाँ लागू हुन्छ)
             html += '<h2 class="vr-title"><a href="' + link + '">' + title + '</a></h2>';
             
+            // २. मेटा विवरण (लेखक र मिति)
             html += '<div class="vr-meta">';
-            html += '<img class="vr-author-img" src="' + authorImg + '" />';
+            html += '<img class="vr-author-img" src="' + authorImg + '" alt="' + authorName + '" />';
             html += '<div class="vr-meta-info">';
             html += '<strong>' + authorName + '</strong>';
             html += '<span class="vr-date"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> ' + pubDate + '</span>';
             html += '</div></div>';
 
-            html += '<div class="vr-image"><a href="' + link + '"><img src="' + img + '"/></a></div>';
+            // ३. मुख्य फोटो
+            html += '<div class="vr-image"><a href="' + link + '"><img src="' + img + '" alt="' + title + '"/></a></div>';
+            
+            // ४. समाचारको अंश
             html += '<div class="vr-snippet">' + snippet + '</div>';
+            
+            // ५. बटन
             html += '<a href="' + link + '" class="vr-btn">विस्तृतमा पढ्नुहोस्</a>';
+            
             html += '</article>';
         }
     }
